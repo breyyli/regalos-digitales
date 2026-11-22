@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Un regalo especial</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #f4eee6;
+  color: #49382e;
+  font-family: Georgia, serif;
+}
+.page {
+  max-width: 650px;
+  margin: auto;
+  padding: 35px 22px 70px;
+  text-align: center;
+}
+.cover {
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.eyebrow {
+  letter-spacing: 4px;
+  font: 11px Arial, sans-serif;
+  color: #947d69;
+}
+h1 {
+  font-size: clamp(40px, 9vw, 65px);
+  font-weight: normal;
+  margin: 24px 0 12px;
+}
+.subtitle {
+  font-size: 17px;
+  color: #806c5c;
+  line-height: 1.7;
+}
+button {
+  margin-top: 35px;
+  background: #49382e;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 16px 32px;
+  font-size: 13px;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.content {
+  display: none;
+  animation: appear 1s ease;
+}
+@keyframes appear {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.section {
+  padding: 55px 0;
+  border-top: 1px solid #dfd3c6;
+}
+h2 {
+  font-weight: normal;
+  font-size: 30px;
+  margin-bottom: 25px;
+}
+.letter {
+  font-size: 18px;
+  line-height: 2;
+  white-space: pre-line;
+  color: #6d594b;
+}
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.gallery img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 5px;
+}
+.memory {
+  padding: 20px;
+  margin: 15px 0;
+  background: #ebe1d5;
+  border-radius: 8px;
+}
+.memory strong {
+  display: block;
+  margin-bottom: 8px;
+}
+.final {
+  font-size: 28px;
+  line-height: 1.6;
+  padding: 45px 5px;
+}
+footer {
+  color: #a08d7c;
+  font: 11px Arial, sans-serif;
+  letter-spacing: 2px;
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <section class="cover" id="cover">
+    <div class="eyebrow">UNA SORPRESA PARA TI</div>
+    <h1 id="title"></h1>
+    <p class="subtitle" id="intro"></p>
+    <button onclick="openGift()">DESCUBRIR MI REGALO ♡</button>
+  </section>
+
+  <main class="content" id="gift">
+
+    <section class="section">
+      <div class="eyebrow">CON TODO MI CARIÑO</div>
+      <h2 id="letterTitle"></h2>
+      <div class="letter" id="letter"></div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">NUESTROS RECUERDOS</div>
+      <h2>Pequeños momentos, grandes historias</h2>
+      <div class="gallery" id="gallery"></div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">NUESTRA HISTORIA</div>
+      <h2>Momentos que guardo</h2>
+      <div id="timeline"></div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">UNA CANCIÓN PARA TI</div>
+      <h2>Nuestra melodía</h2>
+      <p id="songName"></p>
+      <audio id="music" controls></audio>
+    </section>
+
+    <section class="section final">
+      <div id="ending"></div>
+      <p>♡</p>
+    </section>
+
+    <footer>HECHO CON AMOR</footer>
+  </main>
+</div>
+
+<script>
+// PERSONALIZA AQUÍ CADA REGALO
+const regalo = {
+  nombre: "Lucía",
+  titulo: "Para alguien especial",
+  introduccion: "Tengo algo bonito que quiero enseñarte...",
+  tituloCarta: "Quiero decirte algo",
+  carta: `No sé muy bien por dónde empezar...
+  
+  Solo quiero que sepas lo importante que eres para mí.
+  Gracias por cada momento, cada sonrisa y cada recuerdo.
+  
+  Espero que esta pequeña sorpresa te haga sonreír tanto
+  como tú consigues hacerme sonreír a mí.`,
+  fotos: [
+    "https://images.unsplash.com/photo-1511988617509-a57c8a288659?w=600",
+    "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600"
+  ],
+  historia: [
+    {fecha: "Nuestro comienzo", texto: "El día que empezó todo."},
+    {fecha: "Un recuerdo inolvidable", texto: "Uno de tantos momentos especiales."},
+    {fecha: "Hoy", texto: "Y todos los que todavía nos quedan."}
+  ],
+  cancion: "Nuestra canción",
+  audio: "",
+  final: "Lo mejor de mi historia es tenerte en ella."
+};
+
+document.getElementById("title").textContent =
+  "Para " + regalo.nombre;
+
+document.getElementById("intro").textContent =
+  regalo.introduccion;
+
+document.getElementById("letterTitle").textContent =
+  regalo.tituloCarta;
+
+document.getElementById("letter").textContent =
+  regalo.carta;
+
+document.getElementById("songName").textContent =
+  regalo.cancion;
+
+document.getElementById("ending").textContent =
+  regalo.final;
+
+document.getElementById("music").src = regalo.audio;
+
+document.getElementById("gallery").innerHTML =
+  regalo.fotos.map(foto =>
+    `<img src="${foto}" alt="Nuestro recuerdo" loading="lazy">`
+  ).join("");
+
+document.getElementById("timeline").innerHTML =
+  regalo.historia.map(item =>
+    `<div class="memory">
+      <strong>${item.fecha}</strong>
+      ${item.texto}
+    </div>`
+  ).join("");
+
+function openGift() {
+  document.getElementById("cover").style.display = "none";
+  document.getElementById("gift").style.display = "block";
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
